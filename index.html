@@ -1,53 +1,39 @@
+HTML
 <!DOCTYPE html>
-<html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VR道路</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #road {
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: #333;
+    }
+
+    #road-surface {
+      width: 50vw;
+      height: 100vh;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #666;
+    }
+  </style>
+</head>
 <body>
-
-<canvas id="myCanvas" width="500" height="500" style="border:1px solid #d3d3d3;">
-Your browser does not support the HTML5 canvas tag.
-</canvas>
-
-<script>
-var canvas = document.getElementById("myCanvas");
-var ctx = canvas.getContext("2d");
-var x = canvas.width/2;
-var y = canvas.height-30;
-var dx = 2;
-var dy = -2;
-
-function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawCar();
-  x += dx;
-  y += dy;
-}
-
-function drawCar() {
-  ctx.beginPath();
-  ctx.rect(x, y, 10, 10);
-  ctx.fillStyle = "#FF0000";
-  ctx.fill();
-  ctx.closePath();
-}
-
-setInterval(draw, 10);
-
-document.onkeydown = function(e) {
-  switch (e.keyCode) {
-    case 37:
-      dx = -2; dy = 0;
-      break;
-    case 38:
-      dx = 0; dy = -2;
-      break;
-    case 39:
-      dx = 2; dy = 0;
-      break;
-    case 40:
-      dx = 0; dy = 2;
-      break;
-  }
-};
-</script>
-
+  <div id="road">
+    <div id="road-surface"></div>
+  </div>
 </body>
 </html>
