@@ -1,39 +1,29 @@
-HTML
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VR道路</title>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-    }
-
-    #road {
-      width: 100vw;
-      height: 100vh;
-      position: absolute;
-      top: 0;
-      left: 0;
-      background-color: #333;
-    }
-
-    #road-surface {
-      width: 50vw;
-      height: 100vh;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #666;
-    }
-  </style>
-</head>
-<body>
-  <div id="road">
-    <div id="road-surface"></div>
-  </div>
-</body>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>VR Road</title>
+    <meta name="description" content="VR Road - A-Frame">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <!-- Ground (Road) -->
+      <a-plane position="0 0 0" rotation="-90 0 0" width="10" height="100" color="#7B7B7B"></a-plane>
+      
+      <!-- Lane Markings -->
+      <a-plane position="0 0.01 -10" rotation="-90 0 0" width="0.2" height="2" color="#FFFFFF" repeat="1 20"></a-plane>
+      <a-plane position="0 0.01 -15" rotation="-90 0 0" width="0.2" height="2" color="#FFFFFF" repeat="1 20"></a-plane>
+      <a-plane position="0 0.01 -20" rotation="-90 0 0" width="0.2" height="2" color="#FFFFFF" repeat="1 20"></a-plane>
+      <a-plane position="0 0.01 -25" rotation="-90 0 0" width="0.2" height="2" color="#FFFFFF" repeat="1 20"></a-plane>
+      <a-plane position="0 0.01 -30" rotation="-90 0 0" width="0.2" height="2" color="#FFFFFF" repeat="1 20"></a-plane>
+      
+      <!-- Environment -->
+      <a-sky color="#87CEEB"></a-sky>
+      
+      <!-- Camera and Controls -->
+      <a-entity camera position="0 1.6 5"></a-entity>
+      <a-entity wasd-controls position="0 1.6 5"></a-entity>
+    </a-scene>
+  </body>
 </html>
