@@ -1,39 +1,93 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>VR Road for Kids</title>
-    <meta name="description" content="Cute VR Road for Kids - A-Frame">
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  </head>
-  <body>
-    <a-scene>
-      <!-- Ground (Road) -->
-      <a-plane position="0 0 0" rotation="-90 0 0" width="10" height="100" color="#8B8B8B"></a-plane>
+<head>
+<title>A-Frameを用いたVRコンテンツの例</title>
+</head>
+<body>
 
-      <!-- Lane Markings -->
-      <a-plane position="0 0.01 -10" rotation="-90 0 0" width="0.2" height="2" color="#FFFFFF" repeat="1 20"></a-plane>
-      <a-plane position="0 0.01 -20" rotation="-90 0 0" width="0.2" height="2" color="#FFFFFF" repeat="1 20"></a-plane>
-      <a-plane position="0 0.01 -30" rotation="-90 0 0" width="0.2" height="2" color="#FFFFFF" repeat="1 20"></a-plane>
+<p>
+<a href="https://mobile.halfmoon.jp/demo/aframe/racket/">racket</a><br>
+<a href="https://mobile.halfmoon.jp/demo/aframe/quiz/">quiz</a><br>
+<a href="https://mobile.halfmoon.jp/demo/aframe/sky-photos/">sky-photos</a><br>
+<a href="https://ayumu1320205.github.io/vrsample4/">english story</a><br>
+<a href="https://mobile.halfmoon.jp/demo/aframe/gallery/">shooting gallery</a><br>
 
-      <!-- Cute Buildings -->
-      <a-box position="-3 1 -10" rotation="0 45 0" width="2" height="2" depth="2" color="#FFC0CB"></a-box>
-      <a-box position="3 1 -10" rotation="0 45 0" width="2" height="2" depth="2" color="#FFD700"></a-box>
-      <a-box position="-3 1 -20" rotation="0 45 0" width="2" height="2" depth="2" color="#87CEFA"></a-box>
-      <a-box position="3 1 -20" rotation="0 45 0" width="2" height="2" depth="2" color="#32CD32"></a-box>
 
-      <!-- Trees -->
-      <a-cone position="-5 0 -15" radius-bottom="1" radius-top="0.5" height="2" color="#228B22"></a-cone>
-      <a-cone position="5 0 -15" radius-bottom="1" radius-top="0.5" height="2" color="#228B22"></a-cone>
-      <a-cone position="-5 0 -25" radius-bottom="1" radius-top="0.5" height="2" color="#228B22"></a-cone>
-      <a-cone position="5 0 -25" radius-bottom="1" radius-top="0.5" height="2" color="#228B22"></a-cone>
 
-      <!-- Sky -->
-      <a-sky color="#87CEEB"></a-sky>
+<p>
 
-      <!-- Camera and Controls -->
-      <a-entity camera position="0 1.6 5"></a-entity>
-      <a-entity wasd-controls position="0 1.6 5"></a-entity>
-    </a-scene>
-  </body>
+<a href="https://threejs.org/examples/#webxr_xr_ballshooter">shooter</a><br>
+<a href="https://threejs.org/examples/#webxr_xr_paint">paint</a><br>
+
+
+
+<p>
+
+<a href="lesson01.html">lesson01 図形表示</a><br />
+<a href="lesson02.html">lesson02 背景表示。物体往復移動</a><br />
+<a href="lesson03.html">lesson03 物理シミュレーション</a><br />
+<a href="lesson04.html">lesson04 マウスクリック</a><br />
+<a href="lesson05.html">lesson05 raycaster衝突検知（要https）</a><br />
+<a href="lesson06.html">lesson06 コントローラー衝突検知（要https）</a><br />
+<a href="lesson07.html">lesson07 マウスクリック物体移動 </a><br />
+<a href="lesson08.html">lesson08 マウスクリック画像表示（要https）</a><br />
+<a href="lesson09.html">lesson09 物理シミュレーション 衝突イベント</a><br />
+
+<p>
+
+<a href="sample01.html">01 図形表示</a><br />
+    <a href="sample02.html">02 背景表示。物体往復移動</a><br />
+    <a href="sample03.html">03 テクスチャ表示</a><br />
+    <a href="sample04.html">04 カメラ情報表示</a><br />
+    <a href="sample05.html">05 フォーカス操作</a><br />
+    <a href="sample06.html">06 コントローラー情報取得</a><br />
+    <a href="sample07.html">07 コントローラー情報取得。raycaster衝突検知</a
+    ><br />
+    <a href="sample08.html">08 360℃静止画</a><br />
+    <a href="sample09.html">09 360℃動画</a><br />
+    <a href="sample10.html">10 掴んで動かす。スーパーハンド</a><br />
+    <a href="sample13.html">13 物理シミュレーション。</a><br />
+    <a href="sample15.html">15 物理シミュレーション。移動アニメーション。tick</a
+    ><br />
+    <a href="sample16.html">16 raycaster衝突検知。振動</a><br />
+    <a href="sample17.html">17 物理シミュレーション。バウンド。衝突回数表示</a
+    ><br />
+    <a href="sample18.html">18 glbオブジェクト。raycaster衝突検知。振動</a
+    ><br />
+    <a href="sample19.html"
+      >19 静的＆動的作成したオブジェクトを消す。フォーカス操作</a
+    ><br />
+    <a href="sample20.html"
+      >20 ラケットボール。物理シミュレーション。オブジェクト発射</a
+    ><br />
+    <a href="sample21.html">21 glbオブジェクトの落下。着地</a><br />
+    <a href="sample22.html">22 サウンド</a><br />
+
+        
+        
+<p>
+
+<a href="https://moonrider.xyz/">moonrider</a><br>
+
+<a href="https://stemkoski.github.io/A-Frame-Examples/">stemkoski</a><br>
+
+<a href="https://aframe.io/showcase/">showcase</a><br>
+
+<a href="https://skybox.blockadelabs.com/">blockadelabs</a><br>
+
+<p>
+
+<a href="https://www.sis.otsuma.ac.jp/i-lab/demo/vr/image.html"></a><br>
+<a href="https://www.sis.otsuma.ac.jp/i-lab/demo/vr/video.html"></a><br>
+<a href="https://www.youtube.com/watch?v=O0LXMb8KwDI"></a><br>
+
+<p>
+
+<a href="https://www.oculus.com/casting"> chromeでミラーリング</a><br>
+<a href="https://github.com/aframevr/aframe/tree/master/docs/components"> aframeマニュアル</a><br>
+
+
+
+<p>
+
+</body>
 </html>
