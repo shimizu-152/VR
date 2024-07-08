@@ -1,93 +1,37 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>A-Frameを用いたVRコンテンツの例</title>
+  <meta charset="UTF-8">
+  <title>A-Frame Selectable Object with Right Hand Controller</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
 </head>
 <body>
-
-<p>
-<a href="https://mobile.halfmoon.jp/demo/aframe/racket/">racket</a><br>
-<a href="https://mobile.halfmoon.jp/demo/aframe/quiz/">quiz</a><br>
-<a href="https://mobile.halfmoon.jp/demo/aframe/sky-photos/">sky-photos</a><br>
-<a href="https://ayumu1320205.github.io/vrsample4/">english story</a><br>
-<a href="https://mobile.halfmoon.jp/demo/aframe/gallery/">shooting gallery</a><br>
-
-
-
-<p>
-
-<a href="https://threejs.org/examples/#webxr_xr_ballshooter">shooter</a><br>
-<a href="https://threejs.org/examples/#webxr_xr_paint">paint</a><br>
-
-
-
-<p>
-
-<a href="lesson01.html">lesson01 図形表示</a><br />
-<a href="lesson02.html">lesson02 背景表示。物体往復移動</a><br />
-<a href="lesson03.html">lesson03 物理シミュレーション</a><br />
-<a href="lesson04.html">lesson04 マウスクリック</a><br />
-<a href="lesson05.html">lesson05 raycaster衝突検知（要https）</a><br />
-<a href="lesson06.html">lesson06 コントローラー衝突検知（要https）</a><br />
-<a href="lesson07.html">lesson07 マウスクリック物体移動 </a><br />
-<a href="lesson08.html">lesson08 マウスクリック画像表示（要https）</a><br />
-<a href="lesson09.html">lesson09 物理シミュレーション 衝突イベント</a><br />
-
-<p>
-
-<a href="sample01.html">01 図形表示</a><br />
-    <a href="sample02.html">02 背景表示。物体往復移動</a><br />
-    <a href="sample03.html">03 テクスチャ表示</a><br />
-    <a href="sample04.html">04 カメラ情報表示</a><br />
-    <a href="sample05.html">05 フォーカス操作</a><br />
-    <a href="sample06.html">06 コントローラー情報取得</a><br />
-    <a href="sample07.html">07 コントローラー情報取得。raycaster衝突検知</a
-    ><br />
-    <a href="sample08.html">08 360℃静止画</a><br />
-    <a href="sample09.html">09 360℃動画</a><br />
-    <a href="sample10.html">10 掴んで動かす。スーパーハンド</a><br />
-    <a href="sample13.html">13 物理シミュレーション。</a><br />
-    <a href="sample15.html">15 物理シミュレーション。移動アニメーション。tick</a
-    ><br />
-    <a href="sample16.html">16 raycaster衝突検知。振動</a><br />
-    <a href="sample17.html">17 物理シミュレーション。バウンド。衝突回数表示</a
-    ><br />
-    <a href="sample18.html">18 glbオブジェクト。raycaster衝突検知。振動</a
-    ><br />
-    <a href="sample19.html"
-      >19 静的＆動的作成したオブジェクトを消す。フォーカス操作</a
-    ><br />
-    <a href="sample20.html"
-      >20 ラケットボール。物理シミュレーション。オブジェクト発射</a
-    ><br />
-    <a href="sample21.html">21 glbオブジェクトの落下。着地</a><br />
-    <a href="sample22.html">22 サウンド</a><br />
-
+  <a-scene>
+    <a-box id="box1" position="0 1 -1" scale="0.5 0.5 0.5" color="red"></a-box>
+    <a-text id="txt" value="distance" position="0 0 -1" color="red"></a-text>
         
-        
-<p>
-
-<a href="https://moonrider.xyz/">moonrider</a><br>
-
-<a href="https://stemkoski.github.io/A-Frame-Examples/">stemkoski</a><br>
-
-<a href="https://aframe.io/showcase/">showcase</a><br>
-
-<a href="https://skybox.blockadelabs.com/">blockadelabs</a><br>
-
-<p>
-
-<a href="https://www.sis.otsuma.ac.jp/i-lab/demo/vr/image.html"></a><br>
-<a href="https://www.sis.otsuma.ac.jp/i-lab/demo/vr/video.html"></a><br>
-<a href="https://www.youtube.com/watch?v=O0LXMb8KwDI"></a><br>
-
-<p>
-
-<a href="https://www.oculus.com/casting"> chromeでミラーリング</a><br>
-<a href="https://github.com/aframevr/aframe/tree/master/docs/components"> aframeマニュアル</a><br>
-
-
-
-<p>
+    <a-entity id="ctlR" laser-controls="hand: right" raycaster="showLine: false;"></a-entity>
+  </a-scene>
+  
+  <script>
+    var box = $('#box1')[0].object3D;
+    var controller = $('#ctlR')[0].object3D;
+  
+    setInterval(function(){
+    	let txt = document.getElementById("txt");
+    	//txt.setAttribute("value", controller.position.z );//右コントローラーのZ座標を表示
+    	
+    	let distance = controller.position.distanceTo(box.position);
+    	txt.setAttribute("value", distance);//右コントローラーとbox1の距離を表示
+    	
+    	if (distance < 0.4){//右コントローラーとbox1が接近したら
+    		$('#box1').attr('color', 'yellow');
+    	}else{
+    		$('#box1').attr('color', 'red');
+    	}
+    }, 100);
+  </script>
 
 </body>
 </html>
