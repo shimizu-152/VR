@@ -60,9 +60,10 @@
       <!-- Sky -->
       <a-sky color="#87CEEB"></a-sky>
 
-      <!-- Camera and Controls -->
-      <a-entity camera position="0 1.6 5"></a-entity>
-      <a-entity wasd-controls position="0 1.6 5"></a-entity>
+      <!-- Camera and Controls (Pedestrian view) -->
+      <a-entity camera position="0 1.6 0" look-controls>
+        <a-entity wasd-controls></a-entity>
+      </a-entity>
     </a-scene>
   </body>
 </html>
