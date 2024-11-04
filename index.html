@@ -55,23 +55,28 @@
   </a-scene>
 
   <script>
-    // 毎フレーム実行される関数
-    function animate() {
-      const car = document.getElementById('car');
-      const position = car.getAttribute('position');
+  // 車を前進させる関数
+  function animate() {
+    const car = document.getElementById('car');
+    const position = car.getAttribute('position');
 
-      // 車を前進させる（Z軸に沿って移動）
-      position.z -= 0.1; // Z軸の値を減少させることで前進させる
+    // 車を前進させる（Z軸に沿って移動）
+    position.z -= 0.1; // Z軸の値を減少させることで前進させる
 
-      // 新しい位置を設定
-      car.setAttribute('position', position);
+    // 新しい位置を設定
+    car.setAttribute('position', position);
 
-      // アニメーションループを作成
-      requestAnimationFrame(animate);
+    // 一定距離まで進んだら車を見えなくする
+    if (position.z < -30) { // ここで-30が見えなくなる距離
+      car.setAttribute('visible', false);
     }
 
-    // アニメーションを開始
-    animate();
-  </script>
+    // アニメーションループを作成
+    requestAnimationFrame(animate);
+  }
+
+  // アニメーションを開始
+  animate();
+</script>
 </body>
 </html>
