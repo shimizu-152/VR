@@ -67,7 +67,7 @@
     car.setAttribute('position', position);
 
     // 一定距離まで進んだら車を見えなくする
-    if (position.z < -30) { // ここで-30が見えなくなる距離
+    if (position.z < 30) { // ここで30が見えなくなる距離
       car.setAttribute('visible', false);
     }
 
