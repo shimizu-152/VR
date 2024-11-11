@@ -46,15 +46,17 @@
   // 車を前進させる関数
   function animate() {
     const car = document.getElementById('car');
-    const position = car.getAttribute('position');
+    let position = car.getAttribute('position');
     const sound = car.querySelector('a-sound');
 
     // 車を前進させる（Z軸に沿って移動）
-    position.z += 0.5;
-    car.setAttribute('position', position);
+    position.z += 0.5;  // Z軸の位置を少しずつ増加
+
+    // 更新した位置を設定
+    car.setAttribute('position', {x: position.x, y: position.y, z: position.z});
 
     // 視点の近くを通過する時にクラクションを鳴らす
-    if (position.z >= -5 && position.z <= -3 && !sound.components.sound.isPlaying) { // 音が再生されていない場合に再生
+    if (position.z >= -5 && position.z <= -3 && !sound.components.sound.isPlaying) {
       sound.components.sound.playSound();
     }
 
