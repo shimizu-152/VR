@@ -7,7 +7,7 @@
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
 </head>
 <body>
-  <a-scene id="scene">
+  <a-scene>
     <!-- Ground (Road) -->
     <a-plane position="0 0 0" rotation="-90 0 0" width="300" height="300" color="#8B8B8B"></a-plane>
 
@@ -38,14 +38,6 @@
   </a-scene>
 
   <script>
-    // 最初のクリックでクラクション音を許可するリスナー
-    document.getElementById('scene').addEventListener('click', function () {
-      const carSound = document.querySelector('#horn-sound');
-      if (carSound) {
-        carSound.components.sound.playSound();  // 一度だけ再生してブラウザの制限を解除
-      }
-    }, { once: true });  // 一度だけ実行
-
     // 車を前進させる関数
     function animate() {
       const car = document.getElementById('car');
