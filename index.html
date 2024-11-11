@@ -18,33 +18,15 @@
       scale="1 1 1"         
       rotation="0 0 0"    
       gltf-model="car.glb">
+      <!-- クラクションの音 -->
+      <a-sound src="car.mp3" autoplay="false" position="0 0 0"></a-sound>
     </a-entity>
-   
 
     <!-- 家 -->
-    <a-entity 
-      position="-15.461 2.878 -30"  
-      scale="0.4 0.4 0.4" 
-      gltf-model="orangehouse.glb">
-    </a-entity>
-    
-    <a-entity 
-      position="-15.358 3 -17"  
-      scale="0.4 0.4 0.4" 
-      gltf-model="yellowhouse.glb">
-    </a-entity>
-    <a-entity 
-      position="-10.983 3 -10"  
-      scale="0.4 0.4 0.4" 
-      rotation="0 90 0"
-      gltf-model="purplehouse.glb">
-    </a-entity>
-    <a-entity 
-      position="-10.983 3 13"  
-      scale="0.4 0.4 0.4" 
-      rotation="0 90 0"
-      gltf-model="bluehouse.glb">
-    </a-entity>
+    <a-entity position="-15.461 2.878 -30" scale="0.4 0.4 0.4" gltf-model="orangehouse.glb"></a-entity>
+    <a-entity position="-15.358 3 -17" scale="0.4 0.4 0.4" gltf-model="yellowhouse.glb"></a-entity>
+    <a-entity position="-10.983 3 -10" scale="0.4 0.4 0.4" rotation="0 90 0" gltf-model="purplehouse.glb"></a-entity>
+    <a-entity position="-10.983 3 13" scale="0.4 0.4 0.4" rotation="0 90 0" gltf-model="bluehouse.glb"></a-entity>
 
     <!-- 空 -->
     <a-sky color="#87CEEB"></a-sky>
@@ -60,15 +42,21 @@
   function animate() {
     const car = document.getElementById('car');
     const position = car.getAttribute('position');
+    const sound = car.querySelector('a-sound');
 
     // 車を前進させる（Z軸に沿って移動）
-    position.z += 0.5; // Z軸の値を減少させることで前進させる
+    position.z += 0.5;
 
     // 新しい位置を設定
     car.setAttribute('position', position);
 
+    // 視点の近くを通るときにクラクションを鳴らす
+    if (position.z >= -5 && position.z <= -3) { // 近づいたら再生
+      sound.components.sound.playSound();
+    }
+
     // 一定距離まで進んだら車を見えなくする
-    if (position.z < -30) { // ここで-30が見えなくなる距離
+    if (position.z > 5) {
       car.setAttribute('visible', false);
     }
 
@@ -78,6 +66,6 @@
 
   // アニメーションを開始
   animate();
-</script>
+  </script>
 </body>
 </html>
