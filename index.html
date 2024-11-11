@@ -38,6 +38,11 @@
   </a-scene>
 
   <script>
+  // 初回クリックでアニメーションを開始するようにする
+  document.body.addEventListener('click', function() {
+    animate();
+  }, { once: true });
+
   // 車を前進させる関数
   function animate() {
     const car = document.getElementById('car');
@@ -51,21 +56,18 @@
     car.setAttribute('position', position);
 
     // 視点の近くを通るときにクラクションを鳴らす
-    if (position.z >= -5 && position.z <= -3) { // 近づいたら再生
+    if (position.z >= -5 && position.z <= -3 && !sound.components.sound.isPlaying) { // 音が再生されていなければ再生
       sound.components.sound.playSound();
     }
 
     // 一定距離まで進んだら車を見えなくする
     if (position.z > 5) {
       car.setAttribute('visible', false);
+    } else {
+      // アニメーションループを作成
+      requestAnimationFrame(animate);
     }
-
-    // アニメーションループを作成
-    requestAnimationFrame(animate);
   }
-
-  // アニメーションを開始
-  animate();
   </script>
 </body>
 </html>
