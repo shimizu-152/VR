@@ -19,7 +19,7 @@
       rotation="0 0 0"    
       gltf-model="car.glb">
       <!-- クラクションの音 -->
-      <a-sound src="car.mp3" autoplay="false" position="0 0 0"></a-sound>
+      <a-sound id="horn-sound" src="car.mp3" autoplay="false" position="0 0 0"></a-sound>
     </a-entity>
 
     <!-- 家 -->
@@ -38,13 +38,13 @@
   </a-scene>
 
   <script>
-    // サウンド再生を許可するためのイベントリスナーを追加
+    // 最初のクリックでクラクション音を許可するリスナー
     document.getElementById('scene').addEventListener('click', function () {
-      const carSound = document.querySelector('#car a-sound');
+      const carSound = document.querySelector('#horn-sound');
       if (carSound) {
-        carSound.components.sound.playSound();
+        carSound.components.sound.playSound();  // 一度だけ再生してブラウザの制限を解除
       }
-    });
+    }, { once: true });  // 一度だけ実行
 
     // 車を前進させる関数
     function animate() {
