@@ -42,10 +42,16 @@
   </a-scene>
 
   <script>
+    let soundPlayed = false; // 音が再生されたかどうかを管理
+
     // 初回クリックで音声再生を許可
     document.getElementById('start-overlay').addEventListener('click', function () {
       // オーバーレイを非表示にする
       this.style.display = 'none';
+      // 初回クリックで音声再生を許可
+      const carSound = document.querySelector('#car a-sound');
+      carSound.components.sound.playSound(); // 一度鳴らして許可を得る
+      carSound.components.sound.stopSound(); // すぐ止める
       // 車のアニメーション開始
       animate();
     });
@@ -63,8 +69,9 @@
       car.setAttribute('position', position);
 
       // クラクション音を鳴らす条件（車がカメラの近くを通り過ぎるとき）
-      if (position.z >= -5 && position.z <= -3 && !sound.components.sound.isPlaying) {
+      if (position.z >= -5 && position.z <= -3 && !soundPlayed) {
         sound.components.sound.playSound();
+        soundPlayed = true; // 再生済みフラグを立てる
       }
 
       // 一定距離まで進んだら車を見えなくする
