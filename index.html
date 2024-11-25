@@ -15,73 +15,75 @@
     <!-- Ground (Road) -->
     <a-plane position="0 0 0" rotation="-90 0 0" width="300" height="300" color="#8B8B8B"></a-plane>
 
-    <!-- 車 -->
-    <a-entity 
-      id="car"
-      position="2.978 0 -20.443"  
-      scale="1 1 1"         
-      rotation="0 0 0"    
-      gltf-model="car.glb">
-      <!-- クラクションの音 -->
-      <a-sound src="car.mp3" autoplay="false" position="0 0 0"></a-sound>
-    </a-entity>
-
-    <!-- 家 -->
-    <a-entity position="-15.461 2.878 -30" scale="0.4 0.4 0.4" gltf-model="orangehouse.glb"></a-entity>
-    <a-entity position="-15.358 3 -17" scale="0.4 0.4 0.4" gltf-model="yellowhouse.glb"></a-entity>
-    <a-entity position="-10.983 3 -10" scale="0.4 0.4 0.4" rotation="0 90 0" gltf-model="purplehouse.glb"></a-entity>
-    <a-entity position="-10.983 3 13" scale="0.4 0.4 0.4" rotation="0 90 0" gltf-model="bluehouse.glb"></a-entity>
-
     <!-- 空 -->
     <a-sky color="#87CEEB"></a-sky>
 
-    <!-- カメラとコントロール（歩行者視点） -->
-    <a-entity camera position="5 0.5 0" look-controls>
-      <a-entity wasd-controls></a-entity>
+    <!-- 表示用テキスト -->
+    <a-entity id="txt" position="0 2 -3" text="value: Waiting for input; color: black;"></a-entity>
+
+    <!-- カメラとコントローラー -->
+    <a-entity id="cameraRig" position="0 1.6 0">
+      <a-entity camera position="0 0 0" look-controls></a-entity>
+
+      <!-- 左手コントローラー -->
+      <a-entity id="ctlL" oculus-touch-controls="hand: left"></a-entity>
+
+      <!-- 右手コントローラー -->
+      <a-entity id="ctlR" oculus-touch-controls="hand: right"></a-entity>
     </a-entity>
   </a-scene>
 
   <script>
-    let soundPlayed = false; // 音が再生されたかどうかを管理
+    const txt = document.getElementById("txt");
+    const cameraRig = document.getElementById("cameraRig");
+    const ctlL = document.getElementById("ctlL");
+    const ctlR = document.getElementById("ctlR");
 
-    // 初回クリックで音声再生を許可
-    document.getElementById('start-overlay').addEventListener('click', function () {
-      // オーバーレイを非表示にする
-      this.style.display = 'none';
-      // 初回クリックで音声再生を許可
-      const carSound = document.querySelector('#car a-sound');
-      carSound.components.sound.playSound(); // 一度鳴らして許可を得る
-      carSound.components.sound.stopSound(); // すぐ止める
-      // 車のアニメーション開始
-      animate();
+    // 初回クリックでスタート
+    document.getElementById("start-overlay").addEventListener("click", function () {
+      this.style.display = "none";
     });
 
-    // 車を前進させる関数
-    function animate() {
-      const car = document.getElementById('car');
-      const position = car.getAttribute('position');
-      const sound = car.querySelector('a-sound');
+    // 左スティックの動きの表示
+    ctlL.addEventListener("thumbstickmoved", function (event) {
+      txt.setAttribute(
+        "text",
+        "value: L Stick  x:" +
+          event.detail.x.toFixed(2) +
+          ", y:" +
+          event.detail.y.toFixed(2) +
+          "; color: black;"
+      );
+    });
 
-      // 車を前進させる（Z軸に沿って移動）
-      position.z += 0.5;
+    // 右スティックの動きの表示 + カメラリグ移動
+    ctlR.addEventListener("thumbstickmoved", function (event) {
+      txt.setAttribute(
+        "text",
+        "value: R Stick  x:" +
+          event.detail.x.toFixed(2) +
+          ", y:" +
+          event.detail.y.toFixed(2) +
+          "; color: black;"
+      );
 
-      // 新しい位置を設定
-      car.setAttribute('position', position);
+      // 移動の実装
+      const moveSpeed = 0.1; // 移動速度
+      const rotationSpeed = 0.05; // 回転速度
 
-      // クラクション音を鳴らす条件（車がカメラの近くを通り過ぎるとき）
-      if (position.z >= -5 && position.z <= -3 && !soundPlayed) {
-        sound.components.sound.playSound();
-        soundPlayed = true; // 再生済みフラグを立てる
+      // 前後移動 (Z軸)
+      if (event.detail.y !== 0) {
+        const direction = new THREE.Vector3(0, 0, -event.detail.y).normalize();
+        cameraRig.object3D.position.addScaledVector(direction, moveSpeed);
       }
 
-      // 一定距離まで進んだら車を見えなくする
-      if (position.z > 5) {
-        car.setAttribute('visible', false);
-      } else {
-        // アニメーションループを作成
-        requestAnimationFrame(animate);
+      // 左右回転 (Y軸)
+      if (event.detail.x !== 0) {
+        const rotation = cameraRig.object3D.rotation;
+        rotation.y -= event.detail.x * rotationSpeed;
+        cameraRig.object3D.rotation.set(rotation.x, rotation.y, rotation.z);
       }
-    }
+    });
   </script>
 </body>
 </html>
