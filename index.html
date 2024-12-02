@@ -51,56 +51,65 @@
   </a-scene>
 
   <script>
-    const txt = document.getElementById("txt");
-    const cameraRig = document.getElementById("cameraRig");
-    const ctlL = document.getElementById("ctlL");
-    const ctlR = document.getElementById("ctlR");
+  const txt = document.getElementById("txt");
+  const cameraRig = document.getElementById("cameraRig");
+  const ctlL = document.getElementById("ctlL");
+  const ctlR = document.getElementById("ctlR");
 
-    // 初回クリックでスタート
-    document.getElementById("start-overlay").addEventListener("click", function () {
-      this.style.display = "none";
-    });
+  // 初回クリックでスタート
+  document.getElementById("start-overlay").addEventListener("click", function () {
+    this.style.display = "none";
+  });
 
-    // 左スティックの動きの表示
-    ctlL.addEventListener("thumbstickmoved", function (event) {
-      txt.setAttribute(
-        "text",
-        "value: L Stick  x:" +
-          event.detail.x.toFixed(2) +
-          ", y:" +
-          event.detail.y.toFixed(2) +
-          "; color: black;"
-      );
-    });
+  // 左スティックの動きの表示
+  ctlL.addEventListener("thumbstickmoved", function (event) {
+    txt.setAttribute(
+      "text",
+      "value: L Stick  x:" +
+        event.detail.x.toFixed(2) +
+        ", y:" +
+        event.detail.y.toFixed(2) +
+        "; color: black;"
+    );
+  });
 
-    // 右スティックの動きの表示 + カメラリグ移動
-    ctlR.addEventListener("thumbstickmoved", function (event) {
-      txt.setAttribute(
-        "text",
-        "value: R Stick  x:" +
-          event.detail.x.toFixed(2) +
-          ", y:" +
-          event.detail.y.toFixed(2) +
-          "; color: black;"
-      );
+  // 右スティックの動きの表示 + カメラリグ移動
+  ctlR.addEventListener("thumbstickmoved", function (event) {
+    txt.setAttribute(
+      "text",
+      "value: R Stick  x:" +
+        event.detail.x.toFixed(2) +
+        ", y:" +
+        event.detail.y.toFixed(2) +
+        "; color: black;"
+    );
 
-      // 移動の実装
-      const moveSpeed = 0.1; // 移動速度
-      const rotationSpeed = 0.05; // 回転速度
+    const moveSpeed = 0.1; // 移動速度
+    const rotationSpeed = 0.05; // 回転速度
 
-      // 前後移動 (Z軸)
+    // 移動処理
+    if (event.detail.y !== 0 || event.detail.x !== 0) {
+      // カメラリグの現在の方向を取得
+      const direction = new THREE.Vector3();
+      cameraRig.object3D.getWorldDirection(direction);
+      direction.y = 0; // 水平方向のみの移動
+      direction.normalize();
+
+      // 前後移動
       if (event.detail.y !== 0) {
-        const direction = new THREE.Vector3(0, 0, -event.detail.y).normalize();
-        cameraRig.object3D.position.addScaledVector(direction, moveSpeed);
+        const moveVector = direction.clone().multiplyScalar(-event.detail.y * moveSpeed);
+        cameraRig.object3D.position.add(moveVector);
       }
 
-      // 左右回転 (Y軸)
+      // 左右回転
       if (event.detail.x !== 0) {
         const rotation = cameraRig.object3D.rotation;
         rotation.y -= event.detail.x * rotationSpeed;
         cameraRig.object3D.rotation.set(rotation.x, rotation.y, rotation.z);
       }
-    });
-  </script>
+    }
+  });
+</script>
+
 </body>
 </html>
