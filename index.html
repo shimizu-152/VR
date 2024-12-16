@@ -196,63 +196,29 @@
     }
   });
 
-  // 車の自動移動と消失処理
+  // 車の自動移動
 function moveCarAutomatically() {
   const moveSpeed = 0.4; // 車の移動速度
-  const car = document.getElementById("car1"); // 赤い車
-  const blackCar = document.getElementById("car2"); // 黒い車
+  const car = document.getElementById("car1");
   const camera = document.querySelector('[camera]'); // カメラ要素
-
-  // 赤い車の動きと黒い車の発進を監視
-  let blackCarStarted = false; // 黒い車が発進したかどうか
 
   function updateCarPosition() {
     if (car && car.object3D) {
       const carPosition = car.object3D.position;
-      carPosition.z += moveSpeed; // 赤い車が前進
+      carPosition.z += moveSpeed; // Z方向に前進
 
-      // カメラから赤い車までの距離を計算
+      // カメラから車までの距離を計算
       const cameraPosition = camera.object3D.position;
       const distance = carPosition.distanceTo(cameraPosition);
 
-      // 赤い車の移動方向を取得
-      const carDirection = new THREE.Vector3();
-      car.object3D.getWorldDirection(carDirection); // 赤い車の方向
-      carDirection.y = 0; // 水平方向のみの判定
-
-      const cameraToCar = new THREE.Vector3().subVectors(carPosition, cameraPosition); // 車からカメラへのベクトル
-      const dotProduct = carDirection.dot(cameraToCar); // 内積を計算して横切りを判定
-
-      // 赤い車が視点を横切った場合
-      if (dotProduct < 0 && distance < 50) { // 車がカメラの視点を横切っていて、かつ近い距離
-        car.setAttribute("visible", false); // 赤い車を非表示にする
-
-        // 黒い車を発進させる
-        if (!blackCarStarted) {
-          moveBlackCar(); // 黒い車の移動開始
-          blackCarStarted = true; // 発進したフラグを立てる
-        }
+      // 車がカメラの視点を横切ったら非表示にする（距離が一定以上になった場合）
+      if (distance > 50) { // 距離を調整（例えば50メートルを超えたら消す）
+        car.setAttribute("visible", false); // 車を非表示にする
       } else {
-        car.setAttribute("visible", true); // 赤い車を表示
+        car.setAttribute("visible", true); // 車を表示
       }
     }
     requestAnimationFrame(updateCarPosition);
-  }
-
-  // 黒い車を自動で発進させる関数
-  function moveBlackCar() {
-    const blackCar = document.getElementById("car2");
-    const moveSpeed = 0.4; // 黒い車の移動速度
-
-    function updateBlackCarPosition() {
-      if (blackCar && blackCar.object3D) {
-        const blackCarPosition = blackCar.object3D.position;
-        blackCarPosition.z += moveSpeed; // Z方向に前進
-      }
-      requestAnimationFrame(updateBlackCarPosition);
-    }
-
-    updateBlackCarPosition();
   }
 
   updateCarPosition();
