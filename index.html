@@ -159,7 +159,7 @@
     );
   });
 
-  // 右スティックの動きの表示 + カメラリグ移動 (斜め移動防止)
+  // 右スティックの動きの表示 + カメラリグ移動
   ctlR.addEventListener("thumbstickmoved", function (event) {
     txt.setAttribute(
       "text",
@@ -175,20 +175,23 @@
 
     // カメラリグの移動処理
     if (event.detail.y !== 0 || event.detail.x !== 0) {
+      // カメラリグの現在の方向を取得
       const direction = new THREE.Vector3();
       cameraRig.object3D.getWorldDirection(direction);
       direction.y = 0; // 水平方向のみの移動
       direction.normalize();
 
-      if (Math.abs(event.detail.x) > Math.abs(event.detail.y)) {
-        // 左右回転のみ許可
+      // 前後移動
+      if (event.detail.y !== 0) {
+        const moveVector = direction.clone().multiplyScalar(event.detail.y * moveSpeed);
+        cameraRig.object3D.position.add(moveVector);
+      }
+
+      // 左右回転
+      if (event.detail.x !== 0) {
         const rotation = cameraRig.object3D.rotation;
         rotation.y -= event.detail.x * rotationSpeed;
         cameraRig.object3D.rotation.set(rotation.x, rotation.y, rotation.z);
-      } else {
-        // 前後移動のみ許可
-        const moveVector = direction.clone().multiplyScalar(event.detail.y * moveSpeed);
-        cameraRig.object3D.position.add(moveVector);
       }
     }
   });
