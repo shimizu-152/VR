@@ -11,8 +11,6 @@
     <button style="padding: 20px; font-size: 24px;">Start VR</button>
   </div>
 
-  <a-scene id="scene" vr-mode-ui="enabled: true">
-
   <a-scene id="scene">
     <!-- Ground (Road) -->
     <a-plane position="0 0 0" rotation="-90 0 0" width="500" height="500" color="#8B8B8B"></a-plane>
@@ -195,25 +193,28 @@
     }
   });
 
-  // 車の自動移動 (VRモードに入ったときに発進)
-    function moveCarAutomatically() {
-      const moveSpeed = 0.4; // 車の移動速度
+  // 車の自動移動
+  function moveCarAutomatically() {
+    const moveSpeed = 0.2; // 車の移動速度
+    const car = document.getElementById("car1");
 
-      function updateCarPosition() {
-        const carPosition = car1.object3D.position;
+    function updateCarPosition() {
+      if (car && car.object3D) {
+        const carPosition = car.object3D.position;
         carPosition.z += moveSpeed; // Z方向に前進
-        requestAnimationFrame(updateCarPosition);
       }
+      requestAnimationFrame(updateCarPosition);
+    }
 
-      updateCarPosition();
-    
+    updateCarPosition();
+  }
 
-   // VRモードに入ったタイミングで車の移動を開始
-    document.addEventListener("enter-vr", function () {
-      console.log("Entered VR Mode");
-      moveCarAutomatically(); // VRモード開始時に車の自動移動を開始
-    });
+  // VRモードが開始されたときに車の自動移動を開始
+  document.addEventListener("enter-vr", function () {
+    moveCarAutomatically(); // VRモード開始時に車の自動移動を開始
+  });
 </script>
+
 
 
 
