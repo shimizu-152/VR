@@ -7,9 +7,6 @@
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
 </head>
 <body>
-  <div id="start-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); color: white; display: flex; align-items: center; justify-content: center; z-index: 9999;">
-    <button style="padding: 20px; font-size: 24px;">Start VR</button>
-  </div>
 
   <a-scene id="scene">
     <!-- Ground (Road) -->
@@ -133,11 +130,6 @@
   const ctlL = document.getElementById("ctlL");
   const ctlR = document.getElementById("ctlR");
   const car = document.getElementById("car1");
-
-  // 初回クリックでスタート
-  document.getElementById("start-overlay").addEventListener("click", function () {
-    this.style.display = "none";
-  });
 
   // 左スティックの動きの表示
   ctlL.addEventListener("thumbstickmoved", function (event) {
