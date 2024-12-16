@@ -195,7 +195,7 @@
 
   // 車の自動移動
   function moveCarAutomatically() {
-    const moveSpeed = 0.2; // 車の移動速度
+    const moveSpeed = 0.4; // 車の移動速度
     const car = document.getElementById("car1");
 
     function updateCarPosition() {
@@ -213,9 +213,6 @@
   document.addEventListener("enter-vr", function () {
     moveCarAutomatically(); // VRモード開始時に車の自動移動を開始
   });
-
-  // VRモード開始前にも車の移動を開始
-  moveCarAutomatically();
 </script>
 
 
