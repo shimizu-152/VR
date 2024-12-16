@@ -140,8 +140,7 @@
     const cameraRig = document.getElementById("cameraRig");
     const ctlL = document.getElementById("ctlL");
     const ctlR = document.getElementById("ctlR");
-    const car = document.getElementById("car1"); // 赤い車のIDを指定
-    const yellowHouse = new THREE.Vector3(-15.358, 3, -17); // yellowhouse.glbの位置
+    const car = document.getElementById("car");
 
     // 初回クリックでスタート
     document.getElementById("start-overlay").addEventListener("click", function () {
@@ -174,67 +173,44 @@
       const moveSpeed = 0.5; // 移動速度
       const rotationSpeed = 0.1; // 回転速度
 
-    // カメラリグの移動処理
-    if (event.detail.y !== 0 || event.detail.x !== 0) {
-      // カメラリグの現在の方向を取得
-      const direction = new THREE.Vector3();
-      cameraRig.object3D.getWorldDirection(direction);
-      direction.y = 0; // 水平方向のみの移動
-      direction.normalize();
+      // カメラリグの移動処理
+      if (event.detail.y !== 0 || event.detail.x !== 0) {
+        // カメラリグの現在の方向を取得
+        const direction = new THREE.Vector3();
+        cameraRig.object3D.getWorldDirection(direction);
+        direction.y = 0; // 水平方向のみの移動
+        direction.normalize();
 
-      // 前後移動
-      if (event.detail.y !== 0) {
-        const moveVector = direction.clone().multiplyScalar(event.detail.y * moveSpeed);
-        cameraRig.object3D.position.add(moveVector);
+        // 前後移動
+        if (event.detail.y !== 0) {
+          const moveVector = direction.clone().multiplyScalar(event.detail.y * moveSpeed);
+          cameraRig.object3D.position.add(moveVector);
+        }
+
+        // 左右回転
+        if (event.detail.x !== 0) {
+          const rotation = cameraRig.object3D.rotation;
+          rotation.y -= event.detail.x * rotationSpeed;
+          cameraRig.object3D.rotation.set(rotation.x, rotation.y, rotation.z);
+        }
       }
+    });
 
-      // 左右回転
-      if (event.detail.x !== 0) {
-        const rotation = cameraRig.object3D.rotation;
-        rotation.y -= event.detail.x * rotationSpeed;
-        cameraRig.object3D.rotation.set(rotation.x, rotation.y, rotation.z);
-      }
-    }
-  });
+    // 車の自動移動 (例: 前方へ進む)
+    function moveCarAutomatically() {
+      const moveSpeed = 0.2; // 車の移動速度
 
-  // 車の自動移動処理
-  let carMoving = false; // 自動移動中かどうかのフラグ
-
-  function moveCarAutomatically() {
-    const moveSpeed = 0.2; // 車の移動速度
-
-    function updateCarPosition() {
-      if (carMoving) {
+      function updateCarPosition() {
         const carPosition = car.object3D.position;
         carPosition.z += moveSpeed; // Z方向に前進
         requestAnimationFrame(updateCarPosition);
       }
+
+      updateCarPosition();
     }
 
-    updateCarPosition();
-  }
-
-  // 車の発進判定
-  function checkCarStartCondition() {
-    const carPosition = car.object3D.position;
-    const distance = carPosition.distanceTo(yellowHouse); // yellowhouse.glbとの距離を計算
-
-    if (distance < 5 && !carMoving) { // 5メートル以内に入ったら
-      carMoving = true; // 自動移動を開始
-      moveCarAutomatically();
-    }
-  }
-
-  // 毎フレームの更新処理
-  function animate() {
-    checkCarStartCondition(); // 発進条件をチェック
-    requestAnimationFrame(animate);
-  }
-
-  // 初期化時にアニメーションループを開始
-  document.addEventListener("DOMContentLoaded", animate);
-</script>
-
+    // 初期化時に車の自動移動を開始
+    document.addEventListener("DOMContentLoaded", moveCarAutomatically);
   </script>
 </body>
 </html>
