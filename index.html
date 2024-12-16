@@ -200,11 +200,23 @@
   function moveCarAutomatically() {
     const moveSpeed = 0.4; // 車の移動速度
     const car = document.getElementById("car1");
+    const camera = document.querySelector('[camera]'); // カメラ要素
 
     function updateCarPosition() {
       if (car && car.object3D) {
         const carPosition = car.object3D.position;
         carPosition.z += moveSpeed; // Z方向に前進
+
+        // カメラから車までの距離を計算
+        const cameraPosition = camera.object3D.position;
+        const distance = carPosition.distanceTo(cameraPosition);
+
+        // 車がカメラの視点を横切ったら非表示にする（距離が一定以上になった場合）
+        if (distance > 50) { // 距離を調整（例えば50メートルを超えたら消す）
+          car.setAttribute("visible", false); // 車を非表示にする
+        } else {
+          car.setAttribute("visible", true); // 車を表示
+        }
       }
       requestAnimationFrame(updateCarPosition);
     }
