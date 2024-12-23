@@ -181,37 +181,44 @@
   });
 
   // 車の自動移動
-function moveCarAutomatically() {
-  const moveSpeed = 0.4; // 車の移動速度
-  const car = document.getElementById("car1");
-  const camera = document.querySelector('[camera]'); // カメラ要素
+AFRAME.registerComponent("car-movement", {
+  schema: {
+    speed: { type: "number", default: 0.4 } // 移動速度
+  },
 
-  function updateCarPosition() {
-    if (car && car.object3D) {
-      const carPosition = car.object3D.position;
-      carPosition.z += moveSpeed; // Z方向に前進
+  init: function () {
+    this.camera = document.querySelector("[camera]");
+    this.carPosition = this.el.object3D.position;
+  },
 
-      // カメラから車までの距離を計算
-      const cameraPosition = camera.object3D.position;
-      const distance = carPosition.distanceTo(cameraPosition);
+  tick: function () {
+    const moveSpeed = this.data.speed;
 
-      // 車がカメラの視点を横切ったら非表示にする（距離が一定以上になった場合）
-      if (distance > 50) { // 距離を調整（例えば50メートルを超えたら消す）
-        car.setAttribute("visible", false); // 車を非表示にする
-      } else {
-        car.setAttribute("visible", true); // 車を表示
-      }
+    // Z方向に前進
+    this.carPosition.z += moveSpeed;
+
+    // カメラとの距離を計算
+    const cameraPosition = this.camera.object3D.position;
+    const distance = this.carPosition.distanceTo(cameraPosition);
+
+    // 一定距離を超えたら非表示にする
+    if (distance > 50) {
+      this.el.setAttribute("visible", false);
+    } else {
+      this.el.setAttribute("visible", true);
     }
-    requestAnimationFrame(updateCarPosition);
   }
+});
 
-  updateCarPosition();
-}
+// 車に移動コンポーネントを追加
+document.addEventListener("DOMContentLoaded", function () {
+  const car = document.getElementById("car1");
 
-  // VRモードが開始されたときに車の自動移動を開始
+  // VRモードが開始されたら移動開始
   document.addEventListener("enter-vr", function () {
-    moveCarAutomatically(); // VRモード開始時に車の自動移動を開始
+    car.setAttribute("car-movement", "speed: 0.4");
   });
+});
 </script>
 
 
