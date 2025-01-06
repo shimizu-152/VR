@@ -180,45 +180,50 @@
     }
   });
 
-  // 車の自動移動
-AFRAME.registerComponent("car-movement", {
-  schema: {
-    speed: { type: "number", default: 0.4 } // 移動速度
-  },
+  // 車の自動移動コンポーネント
+  AFRAME.registerComponent("car-movement", {
+    schema: {
+      speed: { type: "number", default: 0.4 } // 移動速度
+    },
 
-  init: function () {
-    this.camera = document.querySelector("[camera]");
-    this.carPosition = this.el.object3D.position;
-  },
+    init: function () {
+      this.camera = document.querySelector("[camera]"); // カメラを取得
+      this.carPosition = this.el.object3D.position;
+    },
 
-  tick: function () {
-    const moveSpeed = this.data.speed;
+    tick: function () {
+      const moveSpeed = this.data.speed;
 
-    // Z方向に前進
-    this.carPosition.z += moveSpeed;
+      // カメラとの距離を計算
+      const cameraPosition = this.camera.object3D.position;
+      const distance = this.carPosition.distanceTo(cameraPosition);
 
-    // カメラとの距離を計算
-    const cameraPosition = this.camera.object3D.position;
-    const distance = this.carPosition.distanceTo(cameraPosition);
-
-    // 一定距離を超えたら非表示にする
-    if (distance > 50) {
-      this.el.setAttribute("visible", false);
-    } else {
-      this.el.setAttribute("visible", true);
+      // カメラとの距離が50cm以内なら車を表示し、前進させる
+      if (distance <= 0.5) {
+        this.el.setAttribute("visible", true);
+        this.carPosition.z += moveSpeed;
+      } else {
+        this.el.setAttribute("visible", false);
+      }
     }
-  }
-});
-
-// 車に移動コンポーネントを追加
-document.addEventListener("DOMContentLoaded", function () {
-  const car = document.getElementById("car1");
-
-  // VRモードが開始されたら移動開始
-  document.addEventListener("enter-vr", function () {
-    car.setAttribute("car-movement", "speed: 0.4");
   });
-});
+
+  // ページが読み込まれた後、すべての車に移動コンポーネントを追加
+  document.addEventListener("DOMContentLoaded", function () {
+    const cars = document.querySelectorAll("[gltf-model]");
+    
+    cars.forEach(car => {
+      car.setAttribute("car-movement", "speed: 0.4");
+    });
+
+    // VRモードが開始されたら車の移動開始
+    document.addEventListener("enter-vr", function () {
+      // すべての車に移動を開始させる
+      cars.forEach(car => {
+        car.setAttribute("car-movement", "speed: 0.4");
+      });
+    });
+  });
 </script>
 
 
