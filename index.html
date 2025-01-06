@@ -13,38 +13,35 @@
     <a-plane position="0 0 0" rotation="-90 0 0" width="500" height="500" color="#8B8B8B"></a-plane>
 
    <!-- 1台目の赤い車 -->
-    <a-entity 
-      id="car1"
-      position="-0.7 0 -81"  
-      scale="2 2 2"         
-      rotation="0 0 0"    
-      gltf-model="car.glb" 
-      car-movement="speed: 0.4">
-      <!-- クラクションの音 -->
-      <a-sound src="car.mp3" autoplay="false" position="0 0 0"></a-sound>
-    </a-entity>
+<a-entity 
+  id="car1"
+  position="-0.7 0 -81"  
+  scale="2 2 2"         
+  rotation="0 0 0"    
+  gltf-model="car.glb"
+  car-movement="speed: 0.8">
+</a-entity>
 
-    <!-- 2台目の黒い車 -->
-    <a-entity 
-      id="car2"
-      position="-86 0 -38.803"  
-      scale="2 2 2"         
-      rotation="0 89.919 0"    
-      gltf-model="blackcar.glb"
-      car-movement="speed: 0.4">
-      <a-sound src="car.mp3" autoplay="false" position="0 0 0"></a-sound>
-    </a-entity>
+<!-- 2台目の黒い車 -->
+<a-entity 
+  id="car2"
+  position="-86 0 -38.803"  
+  scale="2 2 2"         
+  rotation="0 89.919 0"    
+  gltf-model="blackcar.glb"
+  car-movement="speed: 0.8">
+</a-entity>
 
-    <!-- 3台目の青い車 -->
-    <a-entity 
-      id="car3"
-      position="-52.154 0 -89"  
-      scale="2 2 2"         
-      rotation="0 0 0"    
-      gltf-model="bluecar.glb"
-      car-movement="speed: 0.4">
-      <a-sound src="car.mp3" autoplay="false" position="0 0 0"></a-sound>
-    </a-entity>
+<!-- 3台目の青い車 -->
+<a-entity 
+  id="car3"
+  position="-52.154 0 -89"  
+  scale="2 2 2"         
+  rotation="0 0 0"    
+  gltf-model="bluecar.glb"
+  car-movement="speed: 0.8">
+</a-entity>
+
 
     
 
@@ -186,7 +183,7 @@
    // 車の自動移動
   AFRAME.registerComponent("car-movement", {
     schema: {
-      speed: { type: "number", default: 0.4 } // 移動速度
+      speed: { type: "number", default: 0.8 } // 移動速度
     },
 
     init: function () {
@@ -205,7 +202,7 @@
       const distance = this.carPosition.distanceTo(cameraPosition);
 
       // 一定距離を超えたら非表示にする
-      if (distance > 50) {
+      if (distance > 80) {
         this.el.setAttribute("visible", false);
       } else {
         this.el.setAttribute("visible", true);
@@ -224,7 +221,7 @@
     // VRモードが開始されたら移動開始
     document.addEventListener("enter-vr", function () {
       cars.forEach(function(car) {
-        car.setAttribute("car-movement", "speed: 0.4");
+        car.setAttribute("car-movement", "speed: 0.8");
       });
     });
   });
