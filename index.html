@@ -201,8 +201,8 @@
       const cameraPosition = this.camera.object3D.position;
       const distance = this.carPosition.distanceTo(cameraPosition);
 
-      // 一定距離を超えたら非表示にする
-      if (distance > 80) {
+      // 距離が200を超えると非表示
+      if (distance > 200) {
         this.el.setAttribute("visible", false);
       } else {
         this.el.setAttribute("visible", true);
