@@ -11,16 +11,15 @@
   <a-scene id="scene">
     <!-- Ground (Road) -->
     <a-plane position="0 0 0" rotation="-90 0 0" width="500" height="500" color="#8B8B8B"></a-plane>
-    <a-camera id="camera" position="0 1.6 0"></a-camera>
 
    <!-- 1台目の赤い車 -->
 <a-entity 
   id="car1"
-  position="0 0 -10"  
+  position="-0.7 0 -81"  
   scale="2 2 2"         
   rotation="0 0 0"    
-  gltf-model="redcar.glb"
-  car-movement="speed: 0.8; cameraId: camera">
+  gltf-model="car.glb"
+  car-movement="speed: 0.8">
 </a-entity>
 
 <!-- 2台目の黒い車 -->
@@ -30,7 +29,7 @@
   scale="2 2 2"         
   rotation="0 89.919 0"    
   gltf-model="blackcar.glb"
-  car-movement="speed: 0.8; cameraId: camera">
+  car-movement="speed: 0.8">
 </a-entity>
 
 <!-- 3台目の青い車 -->
@@ -40,7 +39,7 @@
   scale="2 2 2"         
   rotation="0 0 0"    
   gltf-model="bluecar.glb"
-  car-movement="speed: 0.8; cameraId: camera">
+  car-movement="speed: 0.8">
 </a-entity>
 
 
@@ -182,36 +181,51 @@
     }
   });
 
-    //車の移動
-   AFRAME.registerComponent("car-movement", {
-  schema: {
-    speed: { type: "number", default: 0.8 }, // 車の移動速度
-    cameraId: { type: "string", default: "camera" }, // カメラのID
-  },
+    // 車の自動移動
+  AFRAME.registerComponent("car-movement", {
+    schema: {
+      speed: { type: "number", default: 0.8 } // 移動速度
+    },
 
-  init: function () {
-    this.camera = document.getElementById(this.data.cameraId); // カメラの参照
-    this.carPosition = this.el.object3D.position; // 車の位置
-  },
+    init: function () {
+      this.camera = document.querySelector("[camera]");
+      this.carPosition = this.el.object3D.position;
+    },
 
-  tick: function () {
-    if (!this.camera) {
-      console.error(`Camera with ID '${this.data.cameraId}' not found!`);
-      return;
+    tick: function () {
+      const moveSpeed = this.data.speed;
+
+      // Z方向に前進
+      this.carPosition.z += moveSpeed;
+
+      // カメラとの距離を計算
+      const cameraPosition = this.camera.object3D.position;
+      const distance = this.carPosition.distanceTo(cameraPosition);
+
+      // 距離が200を超えると非表示
+      if (distance > 80) {
+        this.el.setAttribute("visible", false);
+      } else {
+        this.el.setAttribute("visible", true);
+      }
     }
+  });
 
-    const cameraPosition = this.camera.object3D.position;
-    const distance = this.carPosition.distanceTo(cameraPosition); // 車とカメラの距離を計算
+  // 車に移動コンポーネントを追加
+  document.addEventListener("DOMContentLoaded", function () {
+    const cars = [
+      document.getElementById("car1"),
+      document.getElementById("car2"),
+      document.getElementById("car3"),
+    ];
 
-    const visibilityThreshold = 80; // カメラ視界内とみなす距離
-
-    if (distance < visibilityThreshold) {
-      // 距離が閾値以内の場合、前進
-      this.carPosition.z += this.data.speed * 0.016; // フレームごとの速度調整
-    }
-  },
-});
-
+    // VRモードが開始されたら移動開始
+    document.addEventListener("enter-vr", function () {
+      cars.forEach(function(car) {
+        car.setAttribute("car-movement", "speed: 0.8");
+      });
+    });
+  });
 </script>
 
 
