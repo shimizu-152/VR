@@ -190,31 +190,23 @@
     init: function () {
       this.camera = document.querySelector("[camera]");
       this.carPosition = this.el.object3D.position;
-      this.isMoving = false; // 前進中かどうかを示すフラグ
     },
 
     tick: function () {
       const moveSpeed = this.data.speed;
 
+      // Z方向に前進
+      this.carPosition.z += moveSpeed;
+
       // カメラとの距離を計算
       const cameraPosition = this.camera.object3D.position;
       const distance = this.carPosition.distanceTo(cameraPosition);
 
-      // 距離が80未満の場合、車を表示し前進を開始
-      if (distance < 80) {
-        this.el.setAttribute("visible", true);
-
-        if (!this.isMoving) {
-          this.isMoving = true; // フラグを設定
-        }
-      } else {
+      // 距離が200を超えると非表示
+      if (distance > 80) {
         this.el.setAttribute("visible", false);
-        this.isMoving = false; // フラグをリセット
-      }
-
-      // 車を前進させる
-      if (this.isMoving) {
-        this.carPosition.z += moveSpeed;
+      } else {
+        this.el.setAttribute("visible", true);
       }
     }
   });
@@ -227,13 +219,13 @@
       document.getElementById("car3"),
     ];
 
-    // 車にcar-movementコンポーネントを追加
-    cars.forEach(function (car) {
-      car.setAttribute("car-movement", "speed: 0.8");
-      car.setAttribute("visible", true); // 初期状態で表示させる
+    // VRモードが開始されたら移動開始
+    document.addEventListener("enter-vr", function () {
+      cars.forEach(function(car) {
+        car.setAttribute("car-movement", "speed: 0.8");
+      });
     });
   });
-
 </script>
 
 
