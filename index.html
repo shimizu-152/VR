@@ -182,50 +182,58 @@
   });
 
     // 車のアニメーション
-  AFRAME.registerComponent("car-movement", {
-    schema: {
-      speed: { type: "number", default: 0.8 } // 移動速度
-    },
+  // 車のアニメーションコンポーネント
+AFRAME.registerComponent("car-movement", {
+  schema: {
+    speed: { type: "number", default: 0.8 }, // 移動速度
+    triggerDistance: { type: "number", default: 50 } // 移動開始距離
+  },
 
-    init: function () {
-      this.camera = document.querySelector("[camera]");
-      this.carPosition = this.el.object3D.position;
-    },
+  init: function () {
+    this.cameraRig = document.getElementById("cameraRig"); // カメラリグを取得
+    this.carPosition = this.el.object3D.position; // 車の位置を取得
+    this.isMoving = false; // 車が移動中かどうか
+  },
 
-    tick: function () {
-      const moveSpeed = this.data.speed;
+  tick: function () {
+    const moveSpeed = this.data.speed;
 
-      // Z方向に前進
-      this.carPosition.z += moveSpeed;
+    // カメラリグの位置を取得
+    if (this.cameraRig) {
+      const cameraRigPosition = this.cameraRig.object3D.position;
+      const distance = this.carPosition.distanceTo(cameraRigPosition); // カメラとの距離
 
-      // カメラとの距離を計算
-      const cameraPosition = this.camera.object3D.position;
-      const distance = this.carPosition.distanceTo(cameraPosition);
-
-      // 距離が200を超えると非表示
-      if (distance > 80) {
-        this.el.setAttribute("visible", false);
-      } else {
+      // 距離がtriggerDistance以下の場合に表示＆移動開始
+      if (distance <= this.data.triggerDistance) {
         this.el.setAttribute("visible", true);
+
+        if (!this.isMoving) {
+          this.isMoving = true; // 移動フラグをオン
+        }
       }
+
+      // 移動フラグがオンの場合に前進
+      if (this.isMoving) {
+        this.carPosition.z += moveSpeed; // Z方向に進む
+      }
+    } else {
+      console.error("cameraRigが見つかりません");
     }
-  });
+  }
+});
 
-  // 車に移動コンポーネントを追加
-  document.addEventListener("DOMContentLoaded", function () {
-    const cars = [
-      document.getElementById("car1"),
-      document.getElementById("car2"),
-      document.getElementById("car3"),
-    ];
+// 車に移動コンポーネントを追加
+document.addEventListener("DOMContentLoaded", function () {
+  const redCar = document.getElementById("car1"); // 赤い車
+  const blueCar = document.getElementById("car3"); // 青い車
 
-    // VRモードが開始されたら移動開始
-    document.addEventListener("enter-vr", function () {
-      cars.forEach(function(car) {
-        car.setAttribute("car-movement", "speed: 0.8");
-      });
-    });
-  });
+  // 赤い車: 常に動く設定
+  redCar.setAttribute("car-movement", "speed: 0.8");
+
+  // 青い車: 一定距離に近づいたら動く設定
+  blueCar.setAttribute("car-movement", "speed: 0.8; triggerDistance: 50");
+});
+
 </script>
 
 
