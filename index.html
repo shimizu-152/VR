@@ -203,7 +203,7 @@
     const cameraPosition = this.camera.object3D.position;
     const distance = this.carPosition.distanceTo(cameraPosition); // 車とカメラの距離を計算
 
-    const visibilityThreshold = 50; // カメラ視界内とみなす距離
+    const visibilityThreshold = 80; // カメラ視界内とみなす距離
 
     if (distance < visibilityThreshold) {
       // 距離が閾値以内の場合、前進
