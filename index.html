@@ -213,11 +213,7 @@
 
   // 車に移動コンポーネントを追加
   document.addEventListener("DOMContentLoaded", function () {
-    const cars = [
-      document.getElementById("car1"),
-      document.getElementById("car2"),
-      document.getElementById("car3"),
-    ];
+    const cars = document.querySelectorAll("[car-movement]");
 
     // VRモードが開始されたら移動開始
     document.addEventListener("enter-vr", function () {
