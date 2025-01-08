@@ -230,6 +230,7 @@
     // 車にcar-movementコンポーネントを追加
     cars.forEach(function (car) {
       car.setAttribute("car-movement", "speed: 0.8");
+      car.setAttribute("visible", true); // 初期状態で表示させる
     });
   });
 
