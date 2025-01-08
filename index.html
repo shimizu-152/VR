@@ -182,7 +182,6 @@
   });
 
     // 車のアニメーション
-  // 車のアニメーションコンポーネント
 AFRAME.registerComponent("car-movement", {
   schema: {
     speed: { type: "number", default: 0.8 }, // 移動速度
@@ -214,7 +213,12 @@ AFRAME.registerComponent("car-movement", {
 
       // 移動フラグがオンの場合に前進
       if (this.isMoving) {
-        this.carPosition.z += moveSpeed; // Z方向に進む
+        // X方向に移動する場合
+        if (this.el.id === "car2") {
+          this.carPosition.x += moveSpeed; // 黒い車は+X方向に進む
+        } else {
+          this.carPosition.z += moveSpeed; // 赤・青い車は+Z方向に進む
+        }
       }
     } else {
       console.error("cameraRigが見つかりません");
@@ -222,17 +226,23 @@ AFRAME.registerComponent("car-movement", {
   }
 });
 
+
 // 車に移動コンポーネントを追加
 document.addEventListener("DOMContentLoaded", function () {
   const redCar = document.getElementById("car1"); // 赤い車
   const blueCar = document.getElementById("car3"); // 青い車
+  const blackCar = document.getElementById("car2"); // 黒い車
 
-  // 赤い車: 一定距離に近づいたら動く設定
-  redCar.setAttribute("car-movement", "speed: 0.8; triggerDistance: 70");
+  // 赤い車: 一定距離に近づいたら動く設定（Z方向）
+  redCar.setAttribute("car-movement", "speed: 0.8; triggerDistance: 50");
 
-  // 青い車: 一定距離に近づいたら動く設定
+  // 青い車: 一定距離に近づいたら動く設定（Z方向）
   blueCar.setAttribute("car-movement", "speed: 0.8; triggerDistance: 50");
+
+  // 黒い車: 一定距離に近づいたら+X方向に動く設定
+  blackCar.setAttribute("car-movement", "speed: 0.8; triggerDistance: 50");
 });
+
 
 
 </script>
