@@ -214,7 +214,7 @@ AFRAME.registerComponent("car-movement", {
       // 移動フラグがオンの場合に前進
       if (this.isMoving) {
         // X方向に移動する場合
-        if (this.el.id === "car2" || this.el.id === "car6") {
+        if (this.el.id === "car2" || this.el.id === "car5") {
           this.carPosition.x += moveSpeed; // 黒い車は+X方向に進む
         } else {
           this.carPosition.z += moveSpeed; // 赤・青い車は+Z方向に進む
