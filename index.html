@@ -51,8 +51,8 @@
       position="-82.813 0 -194.6"  
       scale="2 2 2"         
       rotation="0 91 0"    
-      gltf-model="blackcar1.glb">
-      <a-sound src="car.mp3" autoplay="false" position="0 0 0"></a-sound>
+      gltf-model="blackcar1.glb"
+      car-movement="speed: 0.8">
     </a-entity>
 
     <!-- 4台目の赤い車 -->
@@ -61,8 +61,8 @@
       position="-49 0 -179"  
       scale="2 2 2"         
       rotation="0 0 0"    
-      gltf-model="car1.glb">
-      <a-sound src="car.mp3" autoplay="false" position="0 0 0"></a-sound>
+      gltf-model="car1.glb"
+      car-movement="speed: 0.8">
     </a-entity>
 
     
@@ -214,7 +214,7 @@ AFRAME.registerComponent("car-movement", {
       // 移動フラグがオンの場合に前進
       if (this.isMoving) {
         // X方向に移動する場合
-        if (this.el.id === "car2") {
+        if (this.el.id === "car2" || this.el.id === "car6") {
           this.carPosition.x += moveSpeed; // 黒い車は+X方向に進む
         } else {
           this.carPosition.z += moveSpeed; // 赤・青い車は+Z方向に進む
@@ -232,6 +232,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const redCar = document.getElementById("car1"); // 赤い車
   const blueCar = document.getElementById("car3"); // 青い車
   const blackCar = document.getElementById("car2"); // 黒い車
+  const redCar1 = document.getElementById("car6"); // 赤い車1
+  const blackCar1 = document.getElementById("car5"); // 黒い車1
 
   // 赤い車: 一定距離に近づいたら動く設定（Z方向）
   redCar.setAttribute("car-movement", "speed: 0.8; triggerDistance: 80");
@@ -241,6 +243,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 黒い車: 一定距離に近づいたら+X方向に動く設定
   blackCar.setAttribute("car-movement", "speed: 0.8; triggerDistance: 50");
+
+  // 赤い車1: 一定距離に近づいたら+Z方向に動く設定
+  redCar1.setAttribute("car-movement", "speed: 0.8; triggerDistance: 100");
+
+  // 黒い車1: 一定距離に近づいたら+X方向に動く設定
+  blackCar1.setAttribute("car-movement", "speed: 0.8; triggerDistance: 50");
 });
 
 
